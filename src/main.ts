@@ -9,17 +9,17 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
 
-  app.use(
-    session({
-      secret: process.env.SESSION_SECRET_KEY,
-      resave: false,
-      saveUninitialized: false,
-      cookie: { maxAge: 3600000 },
-    }),
-  );
+  // app.use(
+  //   session({
+  //     secret: process.env.SESSION_SECRET_KEY,
+  //     resave: false,
+  //     saveUninitialized: false,
+  //     cookie: { maxAge: 3600000 },
+  //   }),
+  // );
 
-  app.use(passport.initialize());
-  app.use(passport.session());
+  // app.use(passport.initialize());
+  // app.use(passport.session());
 
   await app.listen(8000);
   console.log(`server running on ${8000}`);

@@ -6,7 +6,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  BeforeInsert,
 } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class User {
@@ -19,7 +21,7 @@ export class User {
   @Column({ nullable: false })
   lastName: string;
 
-  @Column()
+  @Column({ default: null })
   description: string;
 
   @Column({ unique: true })
@@ -52,4 +54,10 @@ export class User {
 
   @OneToMany(() => Expenses, (expense) => expense.user)
   expense: Expenses[];
+
+  @BeforeInsert()
+  async setPassword(password: string) {
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(password || this.password, salt);
+  }
 }
